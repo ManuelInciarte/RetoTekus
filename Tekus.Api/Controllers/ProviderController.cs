@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tekus.Core.Interfaces;
 using Tekus.Infrastructure.Repositories;
 
 namespace Tekus.Api.Controllers
@@ -12,10 +13,17 @@ namespace Tekus.Api.Controllers
     [ApiController]
     public class ProviderController : ControllerBase
     {
-        [HttpGet]
-        public  IActionResult GetProvider()
+        private readonly IProviderRepository _providerRepository;
+
+        public ProviderController(IProviderRepository providerRepository)
         {
-            var providers = new ProviderRepository().GetProviders();
+            _providerRepository = providerRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProvider()
+        {
+            var providers = await _providerRepository.GetProviders();
             return Ok(providers);
         }
     }

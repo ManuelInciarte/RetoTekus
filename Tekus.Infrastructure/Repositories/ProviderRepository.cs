@@ -1,25 +1,27 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tekus.Core.Entities;
+using Tekus.Core.Interfaces;
+using Tekus.Infrastructure.Data;
 
 namespace Tekus.Infrastructure.Repositories
 {
-    public class ProviderRepository
+    public class ProviderRepository : IProviderRepository
     {
-        public IEnumerable<Provider> GetProviders()
+
+        private readonly TekusContext _context;
+        public ProviderRepository(TekusContext context)
         {
-            var providers = Enumerable.Range(1, 10).Select(x => new Provider
-            {
-                IdProvider=x,
-                NitProvider= x+x,
-                NameProvider = $"Name {x}",
-                EmailProvider = $"Email {x}",
-                TelfProvider = $"Telf {x}",
-                AddressProvider = $"Address {x}"
-            });
+            _context = context;
+        }
+
+        public async Task<IEnumerable<TblProvider>> GetProviders()
+        {
+            var providers = await _context.TblProviders.ToListAsync();            
             return providers;
         }
     }
