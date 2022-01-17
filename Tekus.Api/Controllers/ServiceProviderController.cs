@@ -13,11 +13,16 @@ namespace Tekus.Api.Controllers
     public class ServiceProviderController : ControllerBase
     {
         private readonly IServiceProviderRepository _serviceProviderRepository;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly IProviderRepository _providerRepository;
         private readonly IMapper _mapper;
 
-        public ServiceProviderController(IServiceProviderRepository serviceProviderRepository, IMapper mapper)
+        public ServiceProviderController(IServiceProviderRepository serviceProviderRepository, IServiceRepository serviceRepository,
+            IProviderRepository providerRepository, IMapper mapper)
         {
             _serviceProviderRepository = serviceProviderRepository;
+            _serviceRepository = serviceRepository;
+            _providerRepository = providerRepository;
             _mapper = mapper;
         }
 
@@ -36,18 +41,19 @@ namespace Tekus.Api.Controllers
             var servicesProvidersDto = _mapper.Map<ServiceProviderDto>(servicesProviders);
             return Ok(servicesProvidersDto);
         }
-        [HttpGet("nit")]
-        public async Task<IActionResult> GetServiceProviderNit(int nit)
+        [HttpGet("nitProvider")]
+        public async Task<IActionResult> GetServiceProviderNit(int nitProvider)
         {
-            var servicesProviders = await _serviceProviderRepository.GetServiceProviderNit(nit);
-            var servicesProvidersDto = _mapper.Map<ServiceProviderDto>(servicesProviders);
+            var provider = await _providerRepository.GetProviderNit(nitProvider);
+            var servicesProviders = await _serviceProviderRepository.GetServiceProviderNit(provider.Id);
+            var servicesProvidersDto = _mapper.Map<IEnumerable<ServiceProviderDto>>(servicesProviders);
             return Ok(servicesProvidersDto);
         }
         [HttpGet("idService")]
         public async Task<IActionResult> GetServiceProviderId(int idService)
         {
             var servicesProviders = await _serviceProviderRepository.GetServiceProviderId(idService);
-            var servicesProvidersDto = _mapper.Map<ServiceProviderDto>(servicesProviders);
+            var servicesProvidersDto = _mapper.Map<IEnumerable<ServiceProviderDto>>(servicesProviders);
             return Ok(servicesProvidersDto);
         }
 

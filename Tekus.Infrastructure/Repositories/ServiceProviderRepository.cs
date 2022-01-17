@@ -14,13 +14,11 @@ namespace Tekus.Infrastructure.Repositories
     {
 
         private readonly TekusContext _context;
-        private readonly ProviderRepository _provider;
-        private readonly ServiceRepository _service;
-        public ServiceProviderRepository(TekusContext context, ProviderRepository provider, ServiceRepository service)
+
+        public ServiceProviderRepository(TekusContext context)
         {
             _context = context;
-            _provider = provider;
-            _service = service; 
+
         }
 
         public async Task<IEnumerable<TblServiceProvider>> GetServiceProviders()
@@ -33,18 +31,33 @@ namespace Tekus.Infrastructure.Repositories
             var serviceProvider = await _context.TblServiceProviders.FirstOrDefaultAsync(x => x.Id == id);
             return serviceProvider;
         }
-        public async Task<TblServiceProvider> GetServiceProviderNit(int Nit)
+        public async Task<List<TblServiceProvider>> GetServiceProviderNit(int idProvider)
         {
-            var provider = await _provider.GetProviderNit(Nit);
-            var serviceProvider = await _context.TblServiceProviders.FirstOrDefaultAsync(x => x.Id == provider.Id);
-            return serviceProvider;
+            List<TblServiceProvider> serviceProviderList = await (from d in _context.TblServiceProviders where d.IdProvider == idProvider
+                                                                  select new TblServiceProvider
+                                                                  {
+                                                                      Id = d.Id,
+                                                                      IdProvider = d.IdProvider,
+                                                                      IdService = d.IdService,
+                                                                      CostHour = d.CostHour,
+                                                                      CountryAvailable = d.CountryAvailable
+                                                                  }).ToListAsync();  
+            return serviceProviderList;
         }
 
-        public async Task<TblServiceProvider> GetServiceProviderId(int idService)
+        public async Task<List<TblServiceProvider>> GetServiceProviderId(int idService)
         {
-            var service = await _service.GetService(idService);
-            var serviceProvider = await _context.TblServiceProviders.FirstOrDefaultAsync(x => x.Id == service.Id);
-            return serviceProvider;
+            List<TblServiceProvider> serviceProviderList = await (from d in _context.TblServiceProviders
+                                                                  where d.IdService == idService
+                                                                  select new TblServiceProvider
+                                                                  {
+                                                                      Id = d.Id,
+                                                                      IdProvider = d.IdProvider,
+                                                                      IdService = d.IdService,
+                                                                      CostHour = d.CostHour,
+                                                                      CountryAvailable = d.CountryAvailable
+                                                                  }).ToListAsync();
+            return serviceProviderList;
         }
 
         public async Task InsertServiceProvider(TblServiceProvider provider)

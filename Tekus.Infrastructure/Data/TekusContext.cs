@@ -20,6 +20,8 @@ namespace Tekus.Infrastructure.Data
         public virtual DbSet<TblService> TblServices { get; set; }
         public virtual DbSet<TblServiceProvider> TblServiceProviders { get; set; }
 
+  
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
@@ -61,9 +63,9 @@ namespace Tekus.Infrastructure.Data
 
             modelBuilder.Entity<TblServiceProvider>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("tblServiceProvider");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CostHour).HasColumnType("decimal(19, 4)");
 
@@ -72,24 +74,21 @@ namespace Tekus.Infrastructure.Data
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
-
                 entity.HasOne(d => d.IdProviderNavigation)
-                    .WithMany()
+                    .WithMany(p => p.TblServiceProviders)
                     .HasForeignKey(d => d.IdProvider)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("provider-service");
 
                 entity.HasOne(d => d.IdServiceNavigation)
-                    .WithMany()
+                    .WithMany(p => p.TblServiceProviders)
                     .HasForeignKey(d => d.IdService)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("service-provider");
             });
 
+  
         }
 
-    }
+      }
 }

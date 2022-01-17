@@ -11,8 +11,8 @@ namespace Tekus.Core.Interfaces
     {
         Task<IEnumerable<TblServiceProvider>> GetServiceProviders();
         Task<TblServiceProvider> GetServiceProvider(int id);
-        Task<TblServiceProvider> GetServiceProviderNit(int Nit);
-        Task<TblServiceProvider> GetServiceProviderId(int idService);
+        Task<List<TblServiceProvider>> GetServiceProviderNit(int idProvider);
+        Task<List<TblServiceProvider>> GetServiceProviderId(int idService);
         Task InsertServiceProvider(TblServiceProvider provider);
         Task<bool> UpdateServiceProvider(TblServiceProvider provider);
         Task<bool> DeleteServiceProvider(int id);
