@@ -37,6 +37,7 @@ namespace Tekus.Api
             );
             services.AddTransient<IProviderRepository, ProviderRepository>();
             services.AddTransient<IServiceRepository, ServiceRepository>();
+            services.AddTransient<IServiceProviderRepository, ServiceProviderRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tekus.Api", Version = "v1" });

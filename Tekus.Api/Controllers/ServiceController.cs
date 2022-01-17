@@ -18,9 +18,9 @@ namespace Tekus.Api.Controllers
         private readonly IServiceRepository _serviceRepository;
         private readonly IMapper _mapper;
 
-        public ServiceController(IServiceRepository sewrviceRepository, IMapper mapper)
+        public ServiceController(IServiceRepository serviceRepository, IMapper mapper)
         {
-            _serviceRepository = sewrviceRepository;
+            _serviceRepository = serviceRepository;
             _mapper = mapper;
         }
 
