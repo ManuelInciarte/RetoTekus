@@ -12,7 +12,7 @@ namespace Tekus.Core.Interfaces
         Task<IEnumerable<TblProvider>> GetProviders();
         Task<TblProvider> GetProviderId(int id);
         Task<TblProvider> GetProviderNit(int nit);
-        Task InserProvider(TblProvider provider);
+        Task InsertProvider(TblProvider provider);
         Task<bool> UpdateProvider(TblProvider provider);
         Task<bool> DeleteProvider(int id);
     }

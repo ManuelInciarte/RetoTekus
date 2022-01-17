@@ -15,6 +15,10 @@ namespace Tekus.Infrastructure.Mappings
         {
             CreateMap<TblProvider, ProviderDto>();
             CreateMap<ProviderDto, TblProvider>();
+            CreateMap<TblService, ServiceDto>();
+            CreateMap<ServiceDto, TblService>();
+            CreateMap<TblServiceProvider, ServiceProviderDto>();
+            CreateMap<ServiceProviderDto, TblServiceProvider>();
         }
     }
 }

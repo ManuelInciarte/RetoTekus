@@ -46,7 +46,7 @@ namespace Tekus.Api.Controllers
         public async Task<IActionResult> AddProvider(ProviderDto providerDto)
         {
             var providerEntitie = _mapper.Map<TblProvider>(providerDto);
-            await _providerRepository.InserProvider(providerEntitie);
+            await _providerRepository.InsertProvider(providerEntitie);
          
             return Ok(providerEntitie);
         }

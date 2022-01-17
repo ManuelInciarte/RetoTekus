@@ -35,7 +35,7 @@ namespace Tekus.Infrastructure.Repositories
             return provider;
         }
 
-        public async Task InserProvider(TblProvider provider)
+        public async Task InsertProvider(TblProvider provider)
         {
             _context.TblProviders.Add(provider);
             await _context.SaveChangesAsync();
@@ -44,6 +44,10 @@ namespace Tekus.Infrastructure.Repositories
         public async Task<bool> UpdateProvider(TblProvider provider)
         {
             var _provider = await GetProviderNit(provider.Nit);
+            if (_provider is null)
+            {
+                return false;
+            }
 
             _provider.Nit = provider.Nit;
             _provider.NameProvider = provider.NameProvider;
@@ -58,6 +62,10 @@ namespace Tekus.Infrastructure.Repositories
         public async Task<bool> DeleteProvider(int id)
         {
             var _provider = await GetProviderId(id);
+            if (_provider is null)
+            {
+                return false;
+            }
             _context.TblProviders.Remove(_provider);            
 
             int rows = await _context.SaveChangesAsync();

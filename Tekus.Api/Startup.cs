@@ -36,6 +36,7 @@ namespace Tekus.Api
             options.UseSqlServer(Configuration.GetConnectionString("TekusDb"))
             );
             services.AddTransient<IProviderRepository, ProviderRepository>();
+            services.AddTransient<IServiceRepository, ServiceRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tekus.Api", Version = "v1" });
