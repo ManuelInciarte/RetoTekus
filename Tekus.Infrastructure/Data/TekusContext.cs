@@ -80,13 +80,13 @@ namespace Tekus.Infrastructure.Data
                     .WithMany()
                     .HasForeignKey(d => d.IdProvider)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("proveedor-servicio");
+                    .HasConstraintName("provider-service");
 
                 entity.HasOne(d => d.IdServiceNavigation)
                     .WithMany()
                     .HasForeignKey(d => d.IdService)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("servicio-proveedor");
+                    .HasConstraintName("service-provider");
             });
 
         }

@@ -1,8 +1,12 @@
-﻿#nullable disable
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Tekus.Core.Entities
+namespace Tekus.Core.DTOs
 {
-    public partial class TblProvider
+    public class ProviderDto
     {
         public int Id { get; set; }
         public int Nit { get; set; }

@@ -24,5 +24,18 @@ namespace Tekus.Infrastructure.Repositories
             var providers = await _context.TblProviders.ToListAsync();            
             return providers;
         }
+        public async Task<TblProvider> GetProvider(int nit)
+        {
+            var provider = await _context.TblProviders.FirstOrDefaultAsync(x => x.Nit == nit);
+            return provider;
+        } 
+        
+        public async Task InserProvider(TblProvider provider)
+        {
+            _context.TblProviders.Add(provider);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }

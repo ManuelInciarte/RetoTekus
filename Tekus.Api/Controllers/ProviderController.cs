@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Tekus.Core.DTOs;
+using Tekus.Core.Entities;
 using Tekus.Core.Interfaces;
-using Tekus.Infrastructure.Repositories;
 
 namespace Tekus.Api.Controllers
 {
@@ -14,17 +13,36 @@ namespace Tekus.Api.Controllers
     public class ProviderController : ControllerBase
     {
         private readonly IProviderRepository _providerRepository;
+        private readonly IMapper _mapper;
 
-        public ProviderController(IProviderRepository providerRepository)
+        public ProviderController(IProviderRepository providerRepository, IMapper mapper)
         {
             _providerRepository = providerRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProvider()
+        public async Task<IActionResult> GetProviders()
         {
             var providers = await _providerRepository.GetProviders();
-            return Ok(providers);
+            var providerDto = _mapper.Map<IEnumerable<ProviderDto>>(providers);
+            return Ok(providerDto);
         }
+        [HttpGet("id")]
+        public async Task<IActionResult> GetProvider(int nit)
+        {
+            var provider = await _providerRepository.GetProvider(nit);
+            var providerDto = _mapper.Map<ProviderDto>(provider);
+            return Ok(providerDto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddProvider(ProviderDto provider)
+        {
+            var providerEntitie = _mapper.Map<TblProvider>(provider);
+            await _providerRepository.InserProvider(providerEntitie);
+         
+            return Ok(provider);
+        }
+
     }
 }

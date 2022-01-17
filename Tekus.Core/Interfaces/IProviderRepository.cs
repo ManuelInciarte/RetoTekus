@@ -10,5 +10,7 @@ namespace Tekus.Core.Interfaces
     public interface IProviderRepository
     {
         Task<IEnumerable<TblProvider>> GetProviders();
+        Task<TblProvider> GetProvider(int nit);
+        Task InserProvider(TblProvider provider);
     }
 }
