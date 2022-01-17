@@ -24,18 +24,45 @@ namespace Tekus.Infrastructure.Repositories
             var providers = await _context.TblProviders.ToListAsync();            
             return providers;
         }
-        public async Task<TblProvider> GetProvider(int nit)
+        public async Task<TblProvider> GetProviderId(int id)
+        {
+            var provider = await _context.TblProviders.FirstOrDefaultAsync(x => x.Id == id);
+            return provider;
+        }
+        public async Task<TblProvider> GetProviderNit(int nit)
         {
             var provider = await _context.TblProviders.FirstOrDefaultAsync(x => x.Nit == nit);
             return provider;
-        } 
-        
+        }
+
         public async Task InserProvider(TblProvider provider)
         {
             _context.TblProviders.Add(provider);
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> UpdateProvider(TblProvider provider)
+        {
+            var _provider = await GetProviderNit(provider.Nit);
 
+            _provider.Nit = provider.Nit;
+            _provider.NameProvider = provider.NameProvider;
+            _provider.TelfProvider = provider.TelfProvider;
+            _provider.EmailProvider = provider.EmailProvider;
+            _provider.AddressProvider = provider.AddressProvider;
+
+            int rows = await _context.SaveChangesAsync();
+
+            return rows > 0;
+        }
+        public async Task<bool> DeleteProvider(int id)
+        {
+            var _provider = await GetProviderId(id);
+            _context.TblProviders.Remove(_provider);            
+
+            int rows = await _context.SaveChangesAsync();
+
+            return rows > 0;
+        }
     }
 }
